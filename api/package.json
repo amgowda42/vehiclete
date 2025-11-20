@@ -1,10 +1,14 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "tsc",
+    "dev": "tsc && node dist/server.js",
+    "start": "node dist/server.js",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
   "keywords": [],
@@ -12,8 +16,13 @@
   "license": "ISC",
   "description": "Back end API for the application (vehiclete) using Node.js and Express with type safty.",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/express": "^5.0.5",
     "@types/node": "^24.10.1",
-    "typescript": "^5.9.3"
+    "eslint": "^9.39.1",
+    "eslint-plugin-perfectionist": "^4.15.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.47.0"
   },
   "dependencies": {
     "express": "^5.1.0"
