@@ -1,10 +1,37 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <title>Simple Static</title>
+    <title>Vehiclete Back end</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        padding: 40px;
+      }
+      .box {
+        background: #f5f5f5bb;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        margin-bottom: 10px;
+      }
+      p {
+        margin: 5px 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Static file served!</h1>
-    <p>This is index.html from <code>/public</code>.</p>
+    <div class="box">
+      <h1>Vehiclete Back End</h1>
+      <p>Status: <strong>Running</strong></p>
+      <p>Version: 1.0.0</p>
+      <p>Time: <strong id="current-time"></strong></p>
+    </div>
+
+    <script>
+      document.getElementById('current-time').textContent = new Date().toLocaleString();
+    </script>
   </body>
 </html>
