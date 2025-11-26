@@ -75,22 +75,22 @@ export default defineConfig([
 
 color code 
 
-Primary Actions (Blue #2563EB):
+Primary Actions (Blue #2563EB): 600 & 700
 - Main CTA buttons
 - "View Details" buttons
 - Links and hover states
 
-Important Actions (Red #DC2626):
+Important Actions (Red #DC2626): 600 & 700
 - "Compare Now" button
 - Featured/urgent actions
 - Cars category theme
 
-Success Actions (Green #059669):
+Success Actions (Green #059669): 600 & 700
 - "Add to Compare" button
 - Cycles category theme
 - Confirmation actions
 
 Text:
 - Headings: #0F172A (Slate 900)
-- Body: #475569 (Slate 600)
-- Links: #2563EB (Blue 600)
+- Body: #475569 (Slate 700)
+- Links: #2563EB (Blue 600) for link
