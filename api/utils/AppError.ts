@@ -1,9 +1,17 @@
-export default class AppError extends Error {
-  status: number;
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+class AppError extends Error {
+  isOperational: boolean;
+  status: string;
+  statusCode: number;
 
-  constructor(message: string, status: number) {
+  constructor(message: string, statusCode: number) {
     super(message);
-    this.status = status;
-    Object.setPrototypeOf(this, AppError.prototype);
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true;
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }
+
+export default AppError;
