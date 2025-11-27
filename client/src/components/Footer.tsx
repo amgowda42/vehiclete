@@ -86,7 +86,7 @@ const Footer = () => {
               />
               <div>
                 <p className="text-sm text-slate-400">Developed by</p>
-                <p className="font-semibold text-white">Your Name</p>
+                <p className="font-semibold text-white">Annappa Gowda</p>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <div className="text-center text-slate-400 mt-6">
-            <p>&copy; 2024 Vehiclete. All rights reserved.</p>
+            <p>&copy; 2025 Vehiclete. All rights reserved.</p>
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import { Car, Bike, CircleDot, Search, GitCompare, TrendingUp, Shield } from 'lucide-react';
 
 import type { LucideIcon } from 'lucide-react';
-import Footer from '../../../components/Footer';
-import Hero from '../../../components/Hero';
-import Header from '../../../components/Header';
+import Footer from '@/components/Footer';
+import Hero from '@/components/Hero';
+import Header from '@/components/Header';
 
 interface VehicleCategory {
   id: 'bikes' | 'cars' | 'cycles';
