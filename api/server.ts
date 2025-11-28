@@ -8,11 +8,15 @@ dotenv.config();
 import connectDB from './config/dbConnection.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/logger.js';
+import authRoutes from './routes/authRoutes.js';
 import rootRoutes from './routes/root.js';
 import { error } from './utils/logger.js';
 
 const app = express();
 const PORT = process.env.PORT ?? '8001';
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 void connectDB();
 
@@ -22,6 +26,7 @@ const __dirname = path.dirname(__filename);
 app.use(requestLogger);
 
 app.use('/', rootRoutes);
+app.use('/auth', authRoutes);
 
 app.all('/*splat', (req, res) => {
   res.status(404);
@@ -64,8 +69,6 @@ process.on('uncaughtException', (err: unknown) => {
   }
   process.exit(1);
 });
-
-
 
 //reference code.
 
@@ -163,4 +166,3 @@ process.on('uncaughtException', (err: unknown) => {
 //   mongoose.connection.close();
 //   process.exit(0);
 // });
-
