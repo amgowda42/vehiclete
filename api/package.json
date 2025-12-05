@@ -17,8 +17,10 @@
   "description": "Back end API for the application (vehiclete) using Node.js and Express with type safty.",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.5",
     "@types/joi": "^17.2.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.10.1",
     "eslint": "^9.39.1",
@@ -27,9 +29,12 @@
     "typescript-eslint": "^8.47.0"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
     "winston": "^3.18.3"
   }
