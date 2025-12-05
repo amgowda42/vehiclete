@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import Header from '@/components/Header';
+import { useNavigate } from 'react-router';
 
 interface VehicleCategory {
   id: 'bikes' | 'cars' | 'cycles';
@@ -21,6 +22,7 @@ interface Feature {
 }
 
 const Public = () => {
+  const navigate = useNavigate();
   const vehicleCategories: VehicleCategory[] = [
     {
       id: 'bikes',
@@ -86,7 +88,7 @@ const Public = () => {
       <Hero />
 
       {/* Vehicle Categories */}
-      <section className="bg-slate-50 py-16">
+      <section className="bg-slate-50 py-16 bikes">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-slate-900 mb-4">Browse by Category</h3>
@@ -105,7 +107,7 @@ const Public = () => {
               return (
                 <div
                   key={category.id}
-                  className="bg-white rounded-2xl p-8 border-2 border-slate-400 hover:border-slate-300 transition cursor-pointer group"
+                  className="bg-white rounded-2xl p-8 border-2 border-slate-400 hover:border-slate-300 transition group"
                 >
                   <div
                     className={`w-16 h-16 ${colorClasses[category.color]} rounded-xl flex items-center justify-center mb-6 group-hover:text-white transition`}
@@ -114,15 +116,10 @@ const Public = () => {
                   </div>
                   <h4 className="text-2xl font-bold text-slate-900 mb-2">{category.title}</h4>
                   <p className="text-slate-700 mb-4">{category.description}</p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-start">
                     <span className="text-sm font-semibold text-slate-500">
                       {category.count} Models
                     </span>
-                    <button
-                      className={`${category.color === 'blue' ? 'bg-blue-600 hover:bg-blue-700' : category.color === 'red' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} text-white px-4 py-2 rounded-lg transition`}
-                    >
-                      View All
-                    </button>
                   </div>
                 </div>
               );
@@ -192,10 +189,16 @@ const Public = () => {
             Join thousands of users who trust Vehiclete for their vehicle research
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-semibold">
+            <button
+              className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-semibold cursor-pointer"
+              onClick={() => navigate('/login')}
+            >
               Start Exploring
             </button>
-            <button className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition text-lg font-semibold">
+            <button
+              className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition text-lg font-semibold cursor-pointer"
+              onClick={() => navigate('/login')}
+            >
               Compare Vehicles
             </button>
           </div>
