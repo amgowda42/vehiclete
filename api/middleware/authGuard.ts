@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
 
-import { JsonWebTokenError, TokenExpiredError, verify } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken';
+const { JsonWebTokenError, TokenExpiredError, verify } = pkg;
 
 import type { IUser } from '../models/user.model.js';
 
@@ -20,7 +21,7 @@ export interface DecodedToken extends JwtPayload {
   role: string;
 }
 
-export const protect = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const authGuard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { token } = req.cookies as Record<string, string | undefined>;
 
   if (!token) {
