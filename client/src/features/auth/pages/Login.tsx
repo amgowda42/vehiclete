@@ -1,7 +1,11 @@
 import LoginForm from '../components/LoginForm';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
-  const handleSignUpSuccess = () => {};
+  const navigate = useNavigate();
+  const handleSignUpSuccess = () => {
+    navigate('/admin');
+  };
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-full max-w-md space-y-6">

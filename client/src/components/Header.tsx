@@ -17,7 +17,7 @@ const Header = () => {
               Vehiclete
             </h1>
           </div>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex">
             <h1 className="text-xl font-extrabold text-red-600">Wel Come</h1>
           </div>
           <div className="flex items-center gap-x-4">
