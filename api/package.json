@@ -19,7 +19,6 @@
     "@eslint/js": "^9.39.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5",
     "@types/joi": "^17.2.2",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
