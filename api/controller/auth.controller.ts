@@ -35,7 +35,16 @@ export const signUp = async (req: Request<object, object, SignUpRequestBody>, re
     password: hashedPassword,
     role: 'user',
   });
-  ApiResponse.success(res, user, 'user created successfully.', 201);
+
+  const createdUser = {
+    _id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    isActive: user.isActive,
+    lastName: user.lastName,
+    role: user.role,
+  };
+  ApiResponse.success(res, createdUser, 'user created successfully.', 201);
 };
 
 export const login = async (req: Request<object, object, SignUpRequestBody>, res: Response) => {
@@ -68,7 +77,7 @@ export const login = async (req: Request<object, object, SignUpRequestBody>, res
     secure: process.env.NODE_ENV === 'production',
   });
 
-  res.cookie('refrsh-token', refreshToken, {
+  res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     sameSite: 'strict',
@@ -79,9 +88,9 @@ export const login = async (req: Request<object, object, SignUpRequestBody>, res
     res,
     {
       user: {
+        _id: user._id,
         email: user.email,
         firstName: user.firstName,
-        id: user._id,
         isActive: user.isActive,
         lastName: user.lastName,
         role: user.role,
@@ -155,7 +164,7 @@ export const logout = (res: Response) => {
     secure: process.env.NODE_ENV === 'production',
   });
 
-  res.clearCookie('refresh-token', {
+  res.clearCookie('refreshToken', {
     httpOnly: true,
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'production',
