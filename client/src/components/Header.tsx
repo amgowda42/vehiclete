@@ -23,13 +23,13 @@ const Header = () => {
           <div className="flex items-center gap-x-4">
             <button
               className="bg-blue-600 text-white px-4 py-2 text-lg rounded-lg hover:bg-blue-700 transition font-semibold cursor-pointer"
-              onClick={() => navigate('/sign-up')}
+              onClick={() => navigate('/auth/sign-up')}
             >
               Sign Up
             </button>
             <button
               className="bg-green-600 text-white px-4 py-2 text-lg rounded-lg hover:bg-green-700 transition font-semibold cursor-pointer"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
             >
               Login
             </button>
