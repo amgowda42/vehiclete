@@ -38,6 +38,7 @@
     "mongoose": "^9.0.0",
     "winston": "^3.18.3",
     "typescript": "^5.9.3",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "@types/express": "^5.0.5"
   }
 }
