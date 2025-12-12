@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -6,12 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useLoginMutation } from '../authApis';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
-// Zod Schema for Login
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address').nonempty('email is required.'),
-  password: z.string().min(1, 'Password is required').nonempty('password is required.'),
+  email: z.string().min(1, 'Email is required').email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -21,8 +22,8 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [login, { isLoading, isSuccess }] = useLoginMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,28 +34,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    setIsSubmitting(true);
-    setSubmitMessage('');
-
-    try {
-      // TODO: Replace with your actual API call
-      console.log('Login Data:', data);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      setSubmitMessage('Login successful!');
+  useEffect(() => {
+    if (isSuccess) {
       reset();
+      if (onSuccess) onSuccess();
+      else navigate('/');
+    }
+  }, [isSuccess, onSuccess, reset, navigate]);
 
-      if (onSuccess) {
-        setTimeout(onSuccess, 1500);
-      }
-    } catch (error) {
-      setSubmitMessage('Invalid credentials. Please try again.');
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await login(data).unwrap();
+    } catch (err) {
+      const error = err as { data?: { message?: string } };
+      toast.error(error?.data?.message || 'Login failed');
     }
   };
 
@@ -66,6 +59,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           Enter your details to login Vehiclete
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
@@ -96,25 +90,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
-          {/* need to replace */}
-          {submitMessage && (
-            <Alert
-              className={
-                submitMessage.includes('success')
-                  ? 'bg-green-50 text-green-900 border-green-200'
-                  : 'bg-red-50 text-red-900 border-red-200'
-              }
-            >
-              <AlertDescription>{submitMessage}</AlertDescription>
-            </Alert>
-          )}
-
           <Button
             onClick={handleSubmit(onSubmit)}
             className="w-full bg-blue-600 hover:bg-blue-700 font-semibold cursor-pointer"
-            disabled={isSubmitting}
+            disabled={isLoading}
           >
-            {isSubmitting ? 'Logging in...' : 'Login'}
+            {isLoading ? 'Logging in...' : 'Login'}
           </Button>
         </div>
       </CardContent>
