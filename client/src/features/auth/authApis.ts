@@ -1,6 +1,26 @@
 import apiSlice from '@/app/apiSlice';
 import { setCredentials, clearCredentials } from './authSlice';
 
+export interface SignUpRequest {
+  lastName: string;
+  firstName: string;
+  email: string;
+  password: string;
+}
+
+export interface SignUpResponse {
+  data: {
+    _id: string;
+    email: string;
+    firstName: string;
+    isActive: boolean;
+    lastName: string;
+    role: 'admin"| "user' | string;
+  };
+  message: string;
+  success: boolean;
+}
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -36,6 +56,14 @@ export interface AuthCheckResponse {
 
 export const authApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
+    SignUp: builder.mutation<SignUpResponse, SignUpRequest>({
+      query: credentials => ({
+        url: '/auth/sign-up',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: credentials => ({
         url: '/auth/login',
@@ -61,7 +89,6 @@ export const authApis = apiSlice.injectEndpoints({
 
     authCheck: builder.query<AuthCheckResponse, void>({
       query: () => '/auth/authCheck',
-      providesTags: ['Auth'],
       keepUnusedDataFor: 300,
     }),
 
@@ -86,9 +113,9 @@ export const authApis = apiSlice.injectEndpoints({
           console.error('Logout failed:', error);
         }
       },
-      invalidatesTags: ['Auth'],
     }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useAuthCheckQuery } = authApis;
+export const { useLoginMutation, useLogoutMutation, useAuthCheckQuery, useSignUpMutation } =
+  authApis;

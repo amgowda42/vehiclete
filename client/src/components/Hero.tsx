@@ -28,14 +28,14 @@ const Hero = () => {
         <div className="flex flex-wrap justify-center gap-4">
           <button
             className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition flex items-center space-x-2 cursor-pointer"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/auth/login')}
           >
             <span>Explore Vehicles</span>
             <ArrowRight className="w-5 h-5" />
           </button>
           <button
             className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition flex items-center space-x-2 cursor-pointer"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/auth/login')}
           >
             <GitCompare className="w-5 h-5" />
             <span>Compare Now</span>

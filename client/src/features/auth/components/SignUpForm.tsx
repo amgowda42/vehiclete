@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { useSignUpMutation } from '../authApis';
+import { toast } from 'sonner';
 
 const signUpSchema = z.object({
   email: z.string().email('Invalid email address').nonempty('email is required.'),
@@ -28,8 +29,7 @@ interface SignUpFormProps {
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [SignUp, { isLoading }] = useSignUpMutation();
 
   const {
     register,
@@ -41,27 +41,17 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    setIsSubmitting(true);
-    setSubmitMessage('');
-
     try {
-      // TODO: Replace with your actual API call
-      console.log('Sign Up Data:', data);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      setSubmitMessage('Account created successfully!');
+      await SignUp(data).unwrap();
+      toast.success('Sign Up  successful! , Please Login.');
       reset();
 
       if (onSuccess) {
-        setTimeout(onSuccess, 1500);
+        onSuccess();
       }
-    } catch (error) {
-      setSubmitMessage('An error occurred. Please try again.');
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+    } catch (err) {
+      const error = err as { data?: { message?: string } };
+      toast.error(error?.data?.message || 'Sign Up failed failed');
     }
   };
 
@@ -132,25 +122,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
-          {/* need to replace */}
-          {submitMessage && (
-            <Alert
-              className={
-                submitMessage.includes('success')
-                  ? 'bg-green-50 text-green-900 border-green-200'
-                  : 'bg-red-50 text-red-900 border-red-200'
-              }
-            >
-              <AlertDescription>{submitMessage}</AlertDescription>
-            </Alert>
-          )}
-
           <Button
             onClick={handleSubmit(onSubmit)}
             className="w-full bg-blue-600 hover:bg-blue-700 font-semibold cursor-pointer"
-            disabled={isSubmitting}
+            disabled={isLoading}
           >
-            {isSubmitting ? 'Creating account...' : 'Sign Up'}
+            {isLoading ? 'Creating account...' : 'Sign Up'}
           </Button>
         </div>
       </CardContent>

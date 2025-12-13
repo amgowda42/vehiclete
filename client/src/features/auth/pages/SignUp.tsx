@@ -1,7 +1,11 @@
 import SignUpForm from '../components/SignUpForm';
+import { useNavigate } from 'react-router';
 
 const SignUp = () => {
-  const handleSignUpSuccess = () => {};
+  const navigate = useNavigate();
+  const handleSignUpSuccess = () => {
+    navigate('/auth/login');
+  };
   return (
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-full max-w-md space-y-6">
@@ -12,7 +16,7 @@ const SignUp = () => {
         <SignUpForm onSuccess={handleSignUpSuccess} />
         <div className="text-center text-sm text-slate-500 font-bold">
           Already have an account?{' '}
-          <a href="/login" className="text-blue-600 hover:underline font-bold">
+          <a href="/auth/login" className="text-blue-600 hover:underline font-bold">
             Login
           </a>
         </div>

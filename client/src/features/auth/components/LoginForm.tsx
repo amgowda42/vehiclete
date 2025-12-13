@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useLoginMutation } from '../authApis';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
@@ -18,12 +17,11 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
-  onSuccess?: () => void;
+  onSuccess?: (role: string) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
-  const [login, { isLoading, isSuccess }] = useLoginMutation();
-  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
   const {
     register,
@@ -34,17 +32,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     resolver: zodResolver(loginSchema),
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      reset();
-      if (onSuccess) onSuccess();
-      else navigate('/');
-    }
-  }, [isSuccess, onSuccess, reset, navigate]);
-
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data).unwrap();
+      const response = await login(data).unwrap();
+      toast.success('Login successful!');
+      reset();
+
+      if (onSuccess) {
+        onSuccess(response.data.user.role);
+      }
     } catch (err) {
       const error = err as { data?: { message?: string } };
       toast.error(error?.data?.message || 'Login failed');

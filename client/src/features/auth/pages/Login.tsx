@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router';
 
 const Login = () => {
   const navigate = useNavigate();
-  const handleSignUpSuccess = () => {
-    navigate('/admin');
+  const handleLoginSuccess = (role: string) => {
+    if (role === 'admin') {
+      navigate('/admin/home', { replace: true });
+    } else {
+      navigate('/user/home', { replace: true });
+    }
   };
   return (
     <div className="min-h-screen flex justify-center items-center">
@@ -13,10 +17,10 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-green-600">Vehiclete</h1>
           <p className="text-slate-700">Your Vehicle Management Platform</p>
         </div>
-        <LoginForm onSuccess={handleSignUpSuccess} />
+        <LoginForm onSuccess={handleLoginSuccess} />
         <div className="text-center text-sm text-slate-500 font-bold">
           Don't have an account?{' '}
-          <a href="/sign-up" className="text-blue-600 hover:underline font-bold">
+          <a href="/auth/sign-up" className="text-blue-600 hover:underline font-bold">
             SignUp
           </a>
         </div>
