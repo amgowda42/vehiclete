@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Zap, Menu, X } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router';
+import LogOutButton from '@/features/auth/components/LogOutButton';
 
 const AdminHeader = () => {
   const navigate = useNavigate();
@@ -64,9 +65,7 @@ const AdminHeader = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button className="bg-red-600 text-white px-4 py-2 text-base md:text-lg rounded-lg hover:bg-red-700 transition font-semibold cursor-pointer">
-              LogOut
-            </button>
+            <LogOutButton />
             <button
               className="md:hidden text-slate-700 hover:text-blue-600 transition"
               onClick={toggleMobileMenu}

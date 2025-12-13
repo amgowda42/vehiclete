@@ -59,7 +59,7 @@ const Footer = () => {
 
             <div className="flex items-center space-x-4">
               <a
-                href="https://linkedin.com/in/your-profile"
+                href="https://www.linkedin.com/in/annappa-gowda?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
@@ -68,7 +68,7 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://twitter.com/your-handle"
+                href="https://x.com/AnnappaGowda7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-sky-500 transition-colors"

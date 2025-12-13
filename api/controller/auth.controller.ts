@@ -157,7 +157,7 @@ export const refreshToken = async (req: Request, res: Response) => {
   ApiResponse.success(res, null, 'Access token refreshed successfully', 200);
 };
 
-export const logout = (res: Response) => {
+export const logout = (req: Request, res: Response) => {
   res.clearCookie('token', {
     httpOnly: true,
     sameSite: 'none',

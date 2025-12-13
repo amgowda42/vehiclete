@@ -191,13 +191,13 @@ const Public = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <button
               className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-semibold cursor-pointer"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
             >
               Start Exploring
             </button>
             <button
               className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition text-lg font-semibold cursor-pointer"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
             >
               Compare Vehicles
             </button>
