@@ -1,13 +1,16 @@
 import { useLogoutMutation } from '@/features/auth/authApis';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
 const LogOutButton = () => {
+  const navigate = useNavigate();
   const [logout, { isLoading }] = useLogoutMutation();
 
   const handleLogOut = async () => {
     try {
       await logout().unwrap();
       toast.success('Logged out.');
+      navigate('/auth/login');
     } catch {
       toast.error('logout unsuccessfull.');
     }

@@ -20,7 +20,7 @@ interface SignUpRequestBody {
 export const signUp = async (req: Request<object, object, SignUpRequestBody>, res: Response) => {
   const { email, firstName, lastName, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email }).exec();
   if (existingUser) {
     throw new AppError('This Email is already Exist', 409);
   }

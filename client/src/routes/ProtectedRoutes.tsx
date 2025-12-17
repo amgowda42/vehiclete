@@ -23,7 +23,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
 
   if (allowedRoles.length > 0 && user) {
     const hasRequiredRole = allowedRoles.includes(user.role);
-
+    
     if (!hasRequiredRole) {
       if (user.role === 'admin') {
         return <Navigate to="/admin/home" replace />;

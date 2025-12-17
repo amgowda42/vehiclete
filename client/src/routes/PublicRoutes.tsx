@@ -1,4 +1,3 @@
-// src/components/PublicRoutes.tsx
 import { Navigate, Outlet } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
