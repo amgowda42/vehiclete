@@ -15,12 +15,16 @@ const UserHeader = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleNavClick = (href: string) => {
-    closeMobileMenu();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+    return `text-lg font-semibold transition ${
+      isActive ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-700 hover:text-blue-600'
+    }`;
+  };
+
+  const getMobileNavLinkClass = ({ isActive }: { isActive: boolean }) => {
+    return `text-lg font-semibold transition py-2 px-2 rounded ${
+      isActive ? 'text-blue-600 bg-blue-50' : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
+    }`;
   };
 
   return (
@@ -38,28 +42,16 @@ const UserHeader = () => {
           </div>
 
           <nav className="hidden md:flex justify-center items-center space-x-6">
-            <NavLink
-              to="/bikes"
-              className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition"
-            >
+            <NavLink to="bikes" className={getNavLinkClass}>
               Bikes
             </NavLink>
-            <NavLink
-              to="/cars"
-              className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition"
-            >
+            <NavLink to="cars" className={getNavLinkClass}>
               Cars
             </NavLink>
-            <NavLink
-              to="/cycles"
-              className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition"
-            >
+            <NavLink to="cycles" className={getNavLinkClass}>
               Cycles
             </NavLink>
-            <NavLink
-              to="/compare"
-              className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition"
-            >
+            <NavLink to="compare" className={getNavLinkClass}>
               Compare
             </NavLink>
           </nav>
@@ -75,49 +67,22 @@ const UserHeader = () => {
             </button>
           </div>
         </div>
+
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-slate-200 pt-4 animate-slideDown">
             <nav className="flex flex-col space-y-3">
-              <a
-                href="#bikes"
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick('#bikes');
-                }}
-                className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition py-2 px-2 hover:bg-slate-50 rounded"
-              >
+              <NavLink to="bikes" onClick={closeMobileMenu} className={getMobileNavLinkClass}>
                 Bikes
-              </a>
-              <a
-                href="#cars"
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick('#cars');
-                }}
-                className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition py-2 px-2 hover:bg-slate-50 rounded"
-              >
+              </NavLink>
+              <NavLink to="cars" onClick={closeMobileMenu} className={getMobileNavLinkClass}>
                 Cars
-              </a>
-              <a
-                href="#cycles"
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick('#cycles');
-                }}
-                className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition py-2 px-2 hover:bg-slate-50 rounded"
-              >
+              </NavLink>
+              <NavLink to="cycles" onClick={closeMobileMenu} className={getMobileNavLinkClass}>
                 Cycles
-              </a>
-              <a
-                href="#compare"
-                onClick={e => {
-                  e.preventDefault();
-                  handleNavClick('#compare');
-                }}
-                className="text-slate-700 text-lg font-semibold hover:text-blue-600 transition py-2 px-2 hover:bg-slate-50 rounded"
-              >
+              </NavLink>
+              <NavLink to="compare" onClick={closeMobileMenu} className={getMobileNavLinkClass}>
                 Compare
-              </a>
+              </NavLink>
             </nav>
           </div>
         )}
