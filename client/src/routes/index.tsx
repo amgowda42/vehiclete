@@ -10,6 +10,7 @@ import AdminHome from '@/features/admin/home/pages/AdminHome';
 import UserHome from '@/features/user/home/pages/UserHome';
 import PublicRoutes from './PublicRoutes';
 import ProtectedRoutes from './ProtectedRoutes';
+import Bike from '@/features/bike/pages/Bike';
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
             Component: AdminHome,
             index: true,
           },
+          {
+            path: 'bikes',
+            Component: Bike,
+          },
         ],
       },
     ],
@@ -69,6 +74,10 @@ export const router = createBrowserRouter([
             path: 'home',
             Component: UserHome,
             index: true,
+          },
+          {
+            path: 'bikes',
+            Component: Bike,
           },
         ],
       },

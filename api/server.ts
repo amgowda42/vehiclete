@@ -12,6 +12,7 @@ import connectDB from './config/dbConnection.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/logger.js';
 import authRoutes from './routes/authRoutes.js';
+import bikeRoutes from './routes/bikeRoutes.js';
 import rootRoutes from './routes/root.js';
 import { error } from './utils/logger.js';
 
@@ -34,6 +35,7 @@ app.use(requestLogger);
 
 app.use('/', rootRoutes);
 app.use('/auth', authRoutes);
+app.use('/bikes', bikeRoutes);
 
 app.all('/*splat', (req, res) => {
   res.status(404);

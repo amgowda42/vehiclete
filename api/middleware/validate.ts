@@ -58,6 +58,7 @@ export const validate = (schema: ValidationSource) => {
     if (schema.query) {
       const result = schema.query.validate(req.query, {
         abortEarly: false,
+        convert: true,
         stripUnknown: true,
       });
 
