@@ -1,11 +1,10 @@
+import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
-dotenv.config();
 
 import { corsOptions, corsOptionsDev } from './config/corsOptions.js';
 import connectDB from './config/dbConnection.js';
@@ -23,7 +22,7 @@ app.use(cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptio
 app.options('/*splat', cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptions));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 void connectDB();
@@ -39,6 +38,7 @@ app.use('/bikes', bikeRoutes);
 
 app.all('/*splat', (req, res) => {
   res.status(404);
+
   if (req.accepts('html')) {
     res.sendFile(path.join(__dirname, '..', 'public', '404.html'));
   } else if (req.accepts('json')) {

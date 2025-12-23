@@ -284,7 +284,7 @@ export const bikeIdSchema = {
       .required()
       .messages({
         'any.required': 'Bike ID is required',
-        'string.pattern.base': 'Invalid bike ID format',
+        'string.pattern.base': 'Invalid bike ID format or id.',
       }),
   }),
 };
