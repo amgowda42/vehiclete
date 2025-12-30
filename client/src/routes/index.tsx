@@ -13,6 +13,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Bike from '@/features/bike/pages/Bike';
 import BikeDetails from '@/features/bike/pages/BikeDetails';
 import Car from '@/features/car/pages/Car';
+import CarDetails from '@/features/car/pages/CarDetails';
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ export const router = createBrowserRouter([
           {
             path: 'cars',
             Component: Car,
+          },
+          {
+            path: 'car/:id',
+            Component: CarDetails,
           },
         ],
       },
