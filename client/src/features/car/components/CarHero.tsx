@@ -61,7 +61,7 @@ const CarHero = ({ car }: CarHeroProps) => {
               alt={`${car.brand} ${car.model}`}
               className="w-full h-96 object-cover rounded-2xl"
               onError={e => {
-                e.currentTarget.src = 'https://placehold.co/800x600?text=Bike+Image+Not+Available';
+                e.currentTarget.src = 'https://placehold.co/800x600?text=Car+Image+Not+Available';
               }}
             />
             {!car.isAvailable && (

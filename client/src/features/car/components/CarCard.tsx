@@ -25,7 +25,7 @@ const CarCard = ({ car, onClick }: CarCardProps) => {
           alt={`${car.brand} ${car.model}`}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           onError={e => {
-            e.currentTarget.src = 'https://placehold.co/800x600?text=Bike+Image+Not+Available';
+            e.currentTarget.src = 'https://placehold.co/800x600?text=Car+Image+Not+Available';
           }}
         />
         {!car.isAvailable && (
