@@ -14,6 +14,8 @@ import Bike from '@/features/bike/pages/Bike';
 import BikeDetails from '@/features/bike/pages/BikeDetails';
 import Car from '@/features/car/pages/Car';
 import CarDetails from '@/features/car/pages/CarDetails';
+import Cycle from '@/features/cycle/pages/Cycle';
+import CycleDetails from '@/features/cycle/pages/CycleDetails';
 
 export const router = createBrowserRouter([
   {
@@ -93,6 +95,14 @@ export const router = createBrowserRouter([
           {
             path: 'car/:id',
             Component: CarDetails,
+          },
+          {
+            path: 'cycles',
+            Component: Cycle,
+          },
+          {
+            path: 'cycle/:id',
+            Component: CycleDetails,
           },
         ],
       },
