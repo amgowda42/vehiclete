@@ -1,6 +1,10 @@
 import { Bike, Car, Award, ArrowRight, Zap, Shield, TrendingUp } from 'lucide-react';
+import { useGetVehiclesStatsQuery } from '@/features/vehiclesStats/vehiclesStatsAPis';
+import { useAuth } from '@/hooks/useAuth';
 
 const UserHome = () => {
+  const { data } = useGetVehiclesStatsQuery();
+  const { user } = useAuth();
   return (
     <div className="bg-linear-to-br from-slate-50 to-slate-100">
       {/* Hero Section  */}
@@ -14,7 +18,12 @@ const UserHome = () => {
               Welcome to <span className="text-blue-300">Vehiclete</span>
             </h1>
             <p className="text-2xl md:text-3xl text-blue-200 font-semibold mb-4">
-              Hello, <span className="text-yellow-300">John Doe</span>! 👋
+              Hello,{' '}
+              <span className="text-yellow-300">
+                {' '}
+                {user?.firstName} {user?.lastName}
+              </span>
+              ! 👋
             </p>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
               You're in the vehicle world that has{' '}
@@ -32,15 +41,21 @@ const UserHome = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-4xl font-bold text-blue-600 mb-2">
+                {data?.data?.bikes?.available}+
+              </div>
               <p className="text-slate-600 font-semibold">Bikes Available</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-green-600 mb-2">300+</div>
-              <p className="text-slate-600 font-semibold">Cars Listed</p>
+              <div className="text-4xl font-bold text-green-600 mb-2">
+                {data?.data?.cars?.available}+
+              </div>
+              <p className="text-slate-600 font-semibold">Cars Available</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">200+</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">
+                {data?.data?.cycles?.available}+
+              </div>
               <p className="text-slate-600 font-semibold">Cycles Available</p>
             </div>
             <div>
@@ -83,7 +98,9 @@ const UserHome = () => {
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                       <Zap className="w-5 h-5 text-blue-600" />
                     </div>
-                    <span className="text-slate-700 font-semibold">500+ Bike Models Available</span>
+                    <span className="text-slate-700 font-semibold">
+                      {data?.data?.bikes?.total}+ Bike Models Available
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -129,7 +146,7 @@ const UserHome = () => {
                       <Car className="w-5 h-5 text-green-600" />
                     </div>
                     <span className="text-slate-700 font-semibold">
-                      300+ Car Models from Top Brands
+                      {data?.data?.cars?.total}+ Car Models from Top Brands
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -204,7 +221,7 @@ const UserHome = () => {
                       <Bike className="w-5 h-5 text-purple-600" />
                     </div>
                     <span className="text-slate-700 font-semibold">
-                      200+ Cycle Models Available
+                      {data?.data?.cycles?.total}+ Cycle Models Available
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
