@@ -19,7 +19,7 @@ const Cycle = () => {
   }, [cycles]);
 
   const handleCycleClick = (cycleId: string) => {
-    navigate(`/user/cycle/${cycleId}`);
+    navigate(`/user/cycles/${cycleId}`);
   };
 
   return (

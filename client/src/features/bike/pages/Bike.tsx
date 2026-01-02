@@ -15,7 +15,7 @@ const Bike = () => {
   }, [bikes]);
 
   const handleBikeClick = (bikeId: string) => {
-    navigate(`/user/bike/${bikeId}`);
+    navigate(`/user/bikes/${bikeId}`);
   };
 
   return (
