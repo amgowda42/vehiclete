@@ -45,6 +45,7 @@ export interface BikeListResponse {
 export interface BikeDetailResponse {
   message: string;
   data: IBike;
+  success: boolean;
 }
 
 export const bikeApis = apiSlice.injectEndpoints({
