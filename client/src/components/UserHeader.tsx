@@ -35,7 +35,7 @@ const UserHeader = () => {
             <Zap className="w-8 h-8 text-blue-600" />
             <h1
               className="text-2xl font-bold text-slate-900 cursor-pointer"
-              onClick={() => navigate(0)}
+              onClick={() => navigate('/user/home')}
             >
               Vehiclete
             </h1>
