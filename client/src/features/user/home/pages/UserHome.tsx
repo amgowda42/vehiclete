@@ -1,10 +1,17 @@
 import { Bike, Car, Award, ArrowRight, Zap, Shield, TrendingUp } from 'lucide-react';
 import { useGetVehiclesStatsQuery } from '@/features/vehiclesStats/vehiclesStatsAPis';
+import { useGetAllUsersQuery } from '@/features/auth/userApis';
+import { useGetUsersCountQuery } from '@/features/auth/userApis';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router';
 
 const UserHome = () => {
   const { data } = useGetVehiclesStatsQuery();
+  const { data: users } = useGetAllUsersQuery();
+  const { data: count } = useGetUsersCountQuery();
+  console.log('users', users);
   const { user } = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="bg-linear-to-br from-slate-50 to-slate-100">
       {/* Hero Section  */}
@@ -59,7 +66,9 @@ const UserHome = () => {
               <p className="text-slate-600 font-semibold">Cycles Available</p>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange-600 mb-2">50K+</div>
+              <div className="text-4xl font-bold text-orange-600 mb-2">
+                {count?.data?.totalUsers}+
+              </div>
               <p className="text-slate-600 font-semibold">Happy Users</p>
             </div>
           </div>
@@ -106,9 +115,7 @@ const UserHome = () => {
                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                       <Shield className="w-5 h-5 text-green-600" />
                     </div>
-                    <span className="text-slate-700 font-semibold">
-                      Detailed Specifications & Reviews
-                    </span>
+                    <span className="text-slate-700 font-semibold">Detailed Specifications</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
@@ -118,7 +125,10 @@ const UserHome = () => {
                   </div>
                 </div>
 
-                <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition inline-flex items-center gap-2 shadow-lg">
+                <button
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition inline-flex items-center gap-2 shadow-lg cursor-pointer"
+                  onClick={() => navigate('/user/bikes')}
+                >
                   Browse Bikes
                   <ArrowRight className="w-5 h-5" />
                 </button>
@@ -163,7 +173,10 @@ const UserHome = () => {
                   </div>
                 </div>
 
-                <button className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-green-700 transition inline-flex items-center gap-2 shadow-lg">
+                <button
+                  className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-green-700 transition inline-flex items-center gap-2 shadow-lg cursor-pointer"
+                  onClick={() => navigate('/user/cars')}
+                >
                   Browse Cars
                   <ArrowRight className="w-5 h-5" />
                 </button>
@@ -240,7 +253,10 @@ const UserHome = () => {
                   </div>
                 </div>
 
-                <button className="bg-purple-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-purple-700 transition inline-flex items-center gap-2 shadow-lg">
+                <button
+                  className="bg-purple-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-purple-700 transition inline-flex items-center gap-2 shadow-lg cursor-pointer"
+                  onClick={() => navigate('/user/cycles')}
+                >
                   Browse Cycles
                   <ArrowRight className="w-5 h-5" />
                 </button>
@@ -270,7 +286,7 @@ const UserHome = () => {
               <p className="text-slate-300 text-center mb-6">
                 Compare multiple motorcycles based on engine capacity, mileage, price, and features.
               </p>
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer">
                 Compare Bikes
               </button>
             </div>
@@ -283,7 +299,7 @@ const UserHome = () => {
               <p className="text-slate-300 text-center mb-6">
                 Compare cars by safety ratings, fuel efficiency, technology features, and pricing.
               </p>
-              <button className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+              <button className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer">
                 Compare Cars
               </button>
             </div>
@@ -296,7 +312,7 @@ const UserHome = () => {
               <p className="text-slate-300 text-center mb-6">
                 Compare bicycles by frame material, gears, weight, and suitability for terrain.
               </p>
-              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition cursor-pointer">
                 Compare Cycles
               </button>
             </div>
@@ -322,7 +338,9 @@ const UserHome = () => {
                 <Award className="w-10 h-10 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Comprehensive Database</h3>
-              <p className="text-slate-600">1000+ vehicles with detailed specifications</p>
+              <p className="text-slate-600">
+                {data?.data?.summary?.totalVehicles}+ vehicles with detailed specifications
+              </p>
             </div>
 
             <div className="text-center">
@@ -330,7 +348,7 @@ const UserHome = () => {
                 <TrendingUp className="w-10 h-10 text-green-600" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Smart Comparison</h3>
-              <p className="text-slate-600">Compare up to 4 vehicles side by side</p>
+              <p className="text-slate-600">Compare up to 2 vehicles side by side</p>
             </div>
 
             <div className="text-center">

@@ -10,8 +10,7 @@ const Hero = () => {
           Find Your Perfect Vehicle
         </h2>
         <p className="text-xl text-slate-700 mb-8">
-          Compare bikes, cars, and cycles. Get detailed specifications, prices, and reviews all in
-          one place.
+          Compare bikes, cars, and cycles. Get detailed specifications and prices all in one place.
         </p>
 
         <div className="bg-slate-50 border-2 border-slate-200 rounded-xl p-6 mb-12 max-w-2xl mx-auto">
