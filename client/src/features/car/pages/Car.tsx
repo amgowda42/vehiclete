@@ -3,10 +3,12 @@ import CarCard from '../components/CarCard';
 import { Car as CarIcon } from 'lucide-react';
 import { useGetAllCarsQuery } from '../carApis';
 import { useNavigate } from 'react-router';
+import { useAuth } from '@/hooks/useAuth';
 
 const Car = () => {
   const { data, isLoading, isError } = useGetAllCarsQuery();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const cars = useMemo(() => data?.data || [], [data]);
 
@@ -15,7 +17,9 @@ const Car = () => {
   }, [cars]);
 
   const handleCarClick = (carId: string) => {
-    navigate(`/user/cars/${carId}`);
+    if (!user) return;
+    const basePath = user.role === 'admin' ? '/admin/cars' : '/user/cars';
+    navigate(`${basePath}/${carId}`);
   };
 
   return (
