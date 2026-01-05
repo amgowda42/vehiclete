@@ -3,10 +3,12 @@ import { Bike } from 'lucide-react';
 import CycleCard from '../components/CycleCard';
 import { useGetAllCyclesQuery } from '../cycleApis';
 import { useNavigate } from 'react-router';
+import { useAuth } from '@/hooks/useAuth';
 
 const Cycle = () => {
   const { data, isLoading, isError } = useGetAllCyclesQuery();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const cycles = useMemo(() => data?.data || [], [data]);
 
@@ -19,7 +21,9 @@ const Cycle = () => {
   }, [cycles]);
 
   const handleCycleClick = (cycleId: string) => {
-    navigate(`/user/cycles/${cycleId}`);
+    if (!user) return;
+    const basePath = user.role === 'admin' ? '/admin/cycles' : '/user/cycles';
+    navigate(`${basePath}/${cycleId}`);
   };
 
   return (

@@ -3,10 +3,12 @@ import BikeCard from '../components/BikeCard';
 import { Bike as BikeIcon } from 'lucide-react';
 import { useGetAllBikesQuery } from '../bikeApis';
 import { useNavigate } from 'react-router';
+import { useAuth } from '@/hooks/useAuth';
 
 const Bike = () => {
   const { data, isLoading, isError } = useGetAllBikesQuery();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const bikes = useMemo(() => data?.data || [], [data]);
 
@@ -15,7 +17,9 @@ const Bike = () => {
   }, [bikes]);
 
   const handleBikeClick = (bikeId: string) => {
-    navigate(`/user/bikes/${bikeId}`);
+    if (!user) return;
+    const basePath = user.role === 'admin' ? '/admin/bikes' : '/user/bikes';
+    navigate(`${basePath}/${bikeId}`);
   };
 
   return (
