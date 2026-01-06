@@ -1,15 +1,12 @@
 import { Bike, Car, Award, ArrowRight, Zap, Shield, TrendingUp } from 'lucide-react';
 import { useGetVehiclesStatsQuery } from '@/features/vehiclesStats/vehiclesStatsAPis';
-import { useGetAllUsersQuery } from '@/features/auth/userApis';
-import { useGetUsersCountQuery } from '@/features/auth/userApis';
+import { useGetUsersCountQuery } from '@/features/admin/user/userApis';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router';
 
 const UserHome = () => {
   const { data } = useGetVehiclesStatsQuery();
-  const { data: users } = useGetAllUsersQuery();
   const { data: count } = useGetUsersCountQuery();
-  console.log('users', users);
   const { user } = useAuth();
   const navigate = useNavigate();
   return (

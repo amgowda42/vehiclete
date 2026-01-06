@@ -17,7 +17,11 @@ interface ValidationSource {
 export const validate = (schema: ValidationSource) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     const validationErrors: ValidationError[] = [];
-    const validatedData: Record<string, unknown> = {};
+    const validatedData: {
+      body?: Record<string, unknown>;
+      params?: Record<string, unknown>;
+      query?: Record<string, unknown>;
+    } = {};
 
     if (schema.body) {
       const result = schema.body.validate(req.body, {
@@ -33,7 +37,7 @@ export const validate = (schema: ValidationSource) => {
           });
         });
       } else if (result.value) {
-        Object.assign(validatedData, result.value as Record<string, unknown>);
+        validatedData.body = result.value as Record<string, unknown>;
       }
     }
 
@@ -51,7 +55,7 @@ export const validate = (schema: ValidationSource) => {
           });
         });
       } else if (result.value) {
-        Object.assign(validatedData, result.value as Record<string, unknown>);
+        validatedData.params = result.value as Record<string, unknown>;
       }
     }
 
@@ -70,7 +74,7 @@ export const validate = (schema: ValidationSource) => {
           });
         });
       } else if (result.value) {
-        Object.assign(validatedData, result.value as Record<string, unknown>);
+        validatedData.query = result.value as Record<string, unknown>;
       }
     }
 
@@ -89,9 +93,17 @@ export const validate = (schema: ValidationSource) => {
       return;
     }
 
-    Object.assign(req.body, validatedData);
-    Object.assign(req.params, validatedData);
-    Object.assign(req.query, validatedData);
+    if (validatedData.body) {
+      Object.assign(req.body, validatedData.body);
+    }
+
+    if (validatedData.params) {
+      Object.assign(req.params, validatedData.params);
+    }
+
+    if (validatedData.query) {
+      Object.assign(req.query, validatedData.query);
+    }
 
     next();
   };

@@ -54,6 +54,9 @@ const AdminHeader = () => {
             <NavLink to="compare" className={getNavLinkClass}>
               Compare
             </NavLink>
+            <NavLink to="users" className={getNavLinkClass}>
+              Users
+            </NavLink>
           </nav>
 
           <div className="flex items-center space-x-4">

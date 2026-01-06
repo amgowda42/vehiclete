@@ -19,6 +19,7 @@ import CycleDetails from '@/features/cycle/pages/CycleDetails';
 import BikeLayout from '@/features/bike/pages/Layout';
 import CarLayout from '@/features/car/pages/Layout';
 import CycleLayout from '@/features/cycle/pages/Layout';
+import User from '@/features/admin/user/pages/User';
 
 export const router = createBrowserRouter([
   {
@@ -65,7 +66,53 @@ export const router = createBrowserRouter([
           },
           {
             path: 'bikes',
-            Component: Bike,
+            Component: BikeLayout,
+            children: [
+              {
+                path: '',
+                Component: Bike,
+              },
+              {
+                path: ':id',
+                Component: BikeDetails,
+              },
+            ],
+          },
+
+          {
+            path: 'cars',
+            Component: CarLayout,
+            children: [
+              {
+                path: '',
+                Component: Car,
+              },
+              {
+                path: ':id',
+                Component: CarDetails,
+              },
+            ],
+          },
+
+          {
+            path: 'cycles',
+            Component: CycleLayout,
+            children: [
+              {
+                path: '',
+                Component: Cycle,
+              },
+
+              {
+                path: ':id',
+                Component: CycleDetails,
+              },
+            ],
+          },
+
+          {
+            path: 'users',
+            Component: User,
           },
         ],
       },
