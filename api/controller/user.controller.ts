@@ -2,6 +2,14 @@ import type { Request, Response } from 'express';
 
 import { User } from '../models/user.model.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+import AppError from '../utils/AppError.js';
+
+interface UpdateUserBody {
+  email?: string;
+  firstName?: string;
+  isActive?: boolean;
+  lastName?: string;
+}
 
 export const getAllUsers = async (req: Request, res: Response) => {
   const users = await User.find().exec();
@@ -25,4 +33,25 @@ export const getUsersCount = async (req: Request, res: Response) => {
     'User count fetched successfully',
     200
   );
+};
+
+export const UpdateUser = async (
+  req: Request<{ id: string }, object, UpdateUserBody>,
+  res: Response
+) => {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  const user = await User.findById(id);
+  if (!user) {
+    throw new AppError('User Not Found', 404);
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { $set: updateData },
+    { new: true, runValidators: true }
+  );
+
+  ApiResponse.success(res, updatedUser, 'User updated successfully', 200);
 };
