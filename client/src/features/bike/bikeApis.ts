@@ -35,6 +35,48 @@ export interface IBike {
   createdAt: string;
   updatedAt: string;
 }
+export interface BikeFormData {
+  abs: boolean;
+  acceleration: string;
+  brakingSystem: string;
+  brand: string;
+  caliperType: string;
+  color: string;
+  coolingSystem: string;
+  displacement: string;
+  engineCapacity: number;
+  frontBrakeType: string;
+  frontSuspension: string;
+  fuelTankCapacity: number;
+  groundClearance?: number;
+  image: File;
+  isAvailable?: boolean;
+  kerbWeight: number;
+  maxPower: string;
+  maxTorque: string;
+  mileage: number;
+  model: string;
+  price: number;
+  quickShifter: boolean;
+  rearBrakeType: string;
+  rearSuspension: string;
+  seatHeight: number;
+  seatLength: number;
+  topSpeed: string;
+  transmission: string;
+  varient: string;
+  year: number;
+}
+
+export interface UpdateBikeFormData extends Partial<BikeFormData> {
+  id: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
 
 export interface BikeListResponse {
   success: boolean;
@@ -61,6 +103,57 @@ export const bikeApis = apiSlice.injectEndpoints({
       query: id => ({
         url: `/bikes/${id}`,
       }),
+    }),
+
+    createBike: builder.mutation<ApiResponse<IBike>, BikeFormData>({
+      query: data => {
+        const formData = new FormData();
+
+        // Append all fields to FormData
+        formData.append('abs', String(data.abs));
+        formData.append('acceleration', data.acceleration);
+        formData.append('brakingSystem', data.brakingSystem);
+        formData.append('brand', data.brand);
+        formData.append('caliperType', data.caliperType);
+        formData.append('color', data.color);
+        formData.append('coolingSystem', data.coolingSystem);
+        formData.append('displacement', data.displacement);
+        formData.append('engineCapacity', String(data.engineCapacity));
+        formData.append('frontBrakeType', data.frontBrakeType);
+        formData.append('frontSuspension', data.frontSuspension);
+        formData.append('fuelTankCapacity', String(data.fuelTankCapacity));
+
+        if (data.groundClearance) {
+          formData.append('groundClearance', String(data.groundClearance));
+        }
+
+        formData.append('isAvailable', String(data.isAvailable ?? true));
+        formData.append('kerbWeight', String(data.kerbWeight));
+        formData.append('maxPower', data.maxPower);
+        formData.append('maxTorque', data.maxTorque);
+        formData.append('mileage', String(data.mileage));
+        formData.append('model', data.model);
+        formData.append('price', String(data.price));
+        formData.append('quickShifter', String(data.quickShifter));
+        formData.append('rearBrakeType', data.rearBrakeType);
+        formData.append('rearSuspension', data.rearSuspension);
+        formData.append('seatHeight', String(data.seatHeight));
+        formData.append('seatLength', String(data.seatLength));
+        formData.append('topSpeed', data.topSpeed);
+        formData.append('transmission', data.transmission);
+        formData.append('varient', data.varient);
+        formData.append('year', String(data.year));
+
+        // Append image file
+        formData.append('image', data.image);
+
+        return {
+          url: '/bikes',
+          method: 'POST',
+          body: formData,
+        };
+      },
+      invalidatesTags: ['Bike'],
     }),
 
     // // Create bike
@@ -177,6 +270,7 @@ export const bikeApis = apiSlice.injectEndpoints({
 export const {
   useGetAllBikesQuery,
   useGetBikeByIdQuery,
+  useCreateBikeMutation
   //   useCreateBikeMutation,
   //   useUpdateBikeMutation,
   //   useDeleteBikeMutation,

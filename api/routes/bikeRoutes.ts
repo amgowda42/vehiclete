@@ -4,8 +4,7 @@ import { upload } from '../config/cloudinary.js';
 import {
   bikes,
   createBike,
-  updateBike,
-  deleteBike,
+
   getBikeById,
 } from '../controller/bike.controller.js';
 import { validate } from '../middleware/validate.js';
@@ -23,14 +22,6 @@ router.post(
   createBike
 );
 
-// Update bike with optional image upload
-router.put(
-  '/:id',
-  upload.single('image'), // This expects a form field named "image"
-  updateBike
-);
-
-// Delete bike
-router.delete('/:id', deleteBike);
+// Update bike with optional image up
 
 export default router;
