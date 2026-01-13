@@ -19,10 +19,6 @@ import BikeLayout from '@/features/bike/pages/Layout';
 import CarLayout from '@/features/car/pages/Layout';
 import CycleLayout from '@/features/cycle/pages/Layout';
 import User from '@/features/admin/user/pages/User';
-import Add from '@/features/admin/addVehicles/pages/Add';
-import AddBike from '@/features/admin/addVehicles/components/AddBike';
-import AddCycle from '@/features/admin/addVehicles/components/AddCycle';
-import AddCar from '@/features/admin/addVehicles/components/AddCar';
 
 export const router = createBrowserRouter([
   {
@@ -116,28 +112,6 @@ export const router = createBrowserRouter([
           {
             path: 'users',
             Component: User,
-          },
-          {
-            path: 'add',
-            Component: Add,
-            children: [
-              {
-                path: '',
-                Component: () => <Navigate to="add-bike" />,
-              },
-              {
-                path: 'add-bike',
-                Component: AddBike,
-              },
-              {
-                path: 'add-cycle',
-                Component: AddCycle,
-              },
-              {
-                path: 'add-car',
-                Component: AddCar,
-              },
-            ],
           },
         ],
       },
