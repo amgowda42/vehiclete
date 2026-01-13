@@ -57,9 +57,6 @@ const AdminHeader = () => {
             <NavLink to="users" className={getNavLinkClass}>
               Users
             </NavLink>
-            <NavLink to="add" className={getNavLinkClass}>
-              Add Vehicles
-            </NavLink>
           </nav>
 
           <div className="flex items-center space-x-4">
