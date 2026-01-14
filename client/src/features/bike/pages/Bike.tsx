@@ -1,25 +1,31 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 import BikeCard from '../components/BikeCard';
 import { Bike as BikeIcon } from 'lucide-react';
-import { useGetAllBikesQuery } from '../bikeApis';
+import { useGetAllBikesQuery, useGetBikeBrandsQuery } from '../bikeApis';
 import { useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 const Bike = () => {
-  const { data, isLoading, isError } = useGetAllBikesQuery();
+  const [selectedBrand, setSelectedBrand] = useState<string>('All');
+  const {
+    data: bikesData,
+    isLoading,
+    isError,
+  } = useGetAllBikesQuery(selectedBrand === 'All' ? '' : selectedBrand);
+  const { data: brandsData } = useGetBikeBrandsQuery();
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const bikes = useMemo(() => data?.data || [], [data]);
-
-  const brands = useMemo(() => {
-    return ['All', ...Array.from(new Set(bikes.map(bike => bike.brand)))];
-  }, [bikes]);
+  const brands = ['All', ...(brandsData?.data ?? [])];
 
   const handleBikeClick = (bikeId: string) => {
     if (!user) return;
     const basePath = user.role === 'admin' ? '/admin/bikes' : '/user/bikes';
     navigate(`${basePath}/${bikeId}`);
+  };
+
+  const handleBrandFilter = (brand: string) => {
+    setSelectedBrand(brand);
   };
 
   return (
@@ -30,7 +36,7 @@ const Bike = () => {
             <div>
               <h1 className="text-2xl font-bold text-slate-900 mb-2">Explore Bikes</h1>
               <p className="text-green-600 font-semibold">
-                Discover {bikes.length} amazing motorcycles
+                Discover {bikesData?.data?.length} amazing motorcycles
               </p>
             </div>
           </div>
@@ -39,7 +45,12 @@ const Bike = () => {
             {brands.map(brand => (
               <button
                 key={brand}
-                className="px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all bg-white text-slate-700 hover:bg-blue-600 hover:text-white border border-slate-300 hover:border-blue-600"
+                onClick={() => handleBrandFilter(brand)}
+                className={`px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all border ${
+                  selectedBrand === brand
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white text-slate-700 hover:bg-blue-600 hover:text-white border-slate-300 hover:border-blue-600'
+                }`}
               >
                 {brand}
               </button>
@@ -91,7 +102,7 @@ const Bike = () => {
               Retry
             </button>
           </div>
-        ) : bikes.length === 0 ? (
+        ) : bikesData?.data?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
             <BikeIcon className="w-20 h-20 text-slate-300 mb-4" />
             <h3 className="text-xl font-bold text-slate-700 mb-2">No bikes available</h3>
@@ -99,7 +110,7 @@ const Bike = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {bikes.map(bike => (
+            {bikesData?.data?.map(bike => (
               <BikeCard key={bike._id} bike={bike} onClick={() => handleBikeClick(bike._id)} />
             ))}
           </div>

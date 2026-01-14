@@ -50,9 +50,10 @@ export interface BikeDetailResponse {
 
 export const bikeApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllBikes: builder.query<BikeListResponse, void>({
-      query: () => ({
+    getAllBikes: builder.query<BikeListResponse, string, void>({
+      query: brand => ({
         url: '/bikes',
+        params: brand ? { brand } : {},
       }),
       providesTags: ['Bike'],
     }),
@@ -63,63 +64,12 @@ export const bikeApis = apiSlice.injectEndpoints({
       }),
     }),
 
-    // Get bikes by brand
-    // getBikesByBrand: builder.query<IBike[], string>({
-    //   query: brand => ({
-    //     url: '/bikes',
-    //   }),
-    //   transformResponse: (response: BikeListResponse, meta, brand) => {
-    //     return response.data.filter(bike => bike.brand.toLowerCase() === brand.toLowerCase());
-    //   },
-    //   providesTags: ['Bikes'],
-    // }),
-
-    // Search bikes
-    // searchBikes: builder.query<IBike[], string>({
-    //   query: searchQuery => ({
-    //     url: '/bikes',
-    //   }),
-    //   transformResponse: (response: BikeListResponse, meta, searchQuery) => {
-    //     const lowerQuery = searchQuery.toLowerCase();
-    //     return response.data.filter(
-    //       bike =>
-    //         bike.brand.toLowerCase().includes(lowerQuery) ||
-    //         bike.model.toLowerCase().includes(lowerQuery) ||
-    //         bike.displacement.toLowerCase().includes(lowerQuery)
-    //     );
-    //   },
-    //   providesTags: ['Bikes'],
-    // }),
-
-    // Get bikes by price range
-    // getBikesByPriceRange: builder.query<IBike[], { minPrice: number; maxPrice: number }>({
-    //   query: () => ({
-    //     url: '/bikes',
-    //   }),
-    //   transformResponse: (response: BikeListResponse, meta, { minPrice, maxPrice }) => {
-    //     return response.data.filter(bike => bike.price >= minPrice && bike.price <= maxPrice);
-    //   },
-    //   providesTags: ['Bikes'],
-    // }),
-
-    // Get available bikes only
-    // getAvailableBikes: builder.query<IBike[], void>({
-    //   query: () => ({
-    //     url: '/bikes',
-    //   }),
-    //   transformResponse: (response: BikeListResponse) => {
-    //     return response.data.filter(bike => bike.isAvailable);
-    //   },
-    //   providesTags: ['Bike'],
-    // }),
+    getBikeBrands: builder.query<{ success: boolean; message: string; data: string[] }, void>({
+      query: () => ({
+        url: '/bikes/brands',
+      }),
+    }),
   }),
 });
 
-export const {
-  useGetAllBikesQuery,
-  useGetBikeByIdQuery,
-  //   useGetBikesByBrandQuery,
-  //   useSearchBikesQuery,
-  //   useGetBikesByPriceRangeQuery,
-  //   useGetAvailableBikesQuery,
-} = bikeApis;
+export const { useGetAllBikesQuery, useGetBikeByIdQuery, useGetBikeBrandsQuery } = bikeApis;
