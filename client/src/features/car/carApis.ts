@@ -123,9 +123,10 @@ export interface CarDetailResponse {
 
 export const carApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllCars: builder.query<CarListResponse, void>({
-      query: () => ({
+    getAllCars: builder.query<CarListResponse, string, void>({
+      query: brand => ({
         url: '/cars',
+        params: brand ? { brand } : {},
       }),
       providesTags: ['Car'],
     }),
@@ -135,7 +136,13 @@ export const carApis = apiSlice.injectEndpoints({
         url: `/cars/${id}`,
       }),
     }),
+
+    getCarBrands: builder.query<{ success: boolean; message: string; data: string[] }, void>({
+      query: () => ({
+        url: '/cars/brands',
+      }),
+    }),
   }),
 });
 
-export const { useGetAllCarsQuery, useGetCarByIdQuery } = carApis;
+export const { useGetAllCarsQuery, useGetCarByIdQuery, useGetCarBrandsQuery } = carApis;
