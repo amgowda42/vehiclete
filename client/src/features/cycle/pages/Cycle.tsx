@@ -1,29 +1,49 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { Bike } from 'lucide-react';
 import CycleCard from '../components/CycleCard';
-import { useGetAllCyclesQuery } from '../cycleApis';
+import {
+  useGetAllCyclesQuery,
+  useGetCycleBrandsQuery,
+  useGetCycleCategoriesQuery,
+} from '../cycleApis';
 import { useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 const Cycle = () => {
-  const { data, isLoading, isError } = useGetAllCyclesQuery();
+  const [selectedBrand, setSelectedBrand] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const {
+    data: cyclesData,
+    isLoading,
+    isError,
+  } = useGetAllCyclesQuery({
+    brand: selectedBrand === 'All' ? '' : selectedBrand,
+    category: selectedCategory === 'All' ? '' : selectedCategory,
+  });
+  const { data: brandsData } = useGetCycleBrandsQuery();
+  const { data: categoriesData } = useGetCycleCategoriesQuery();
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const cycles = useMemo(() => data?.data || [], [data]);
+  const brands = ['All', ...(brandsData?.data ?? [])];
 
-  const brands = useMemo(() => {
-    return ['All', ...Array.from(new Set(cycles.map(cycle => cycle.brand)))];
-  }, [cycles]);
-
-  const categories = useMemo(() => {
-    return ['All', ...Array.from(new Set(cycles.map(cycle => cycle.category)))];
-  }, [cycles]);
+  const categories = ['All', ...(categoriesData?.data ?? [])];
 
   const handleCycleClick = (cycleId: string) => {
     if (!user) return;
     const basePath = user.role === 'admin' ? '/admin/cycles' : '/user/cycles';
     navigate(`${basePath}/${cycleId}`);
+  };
+
+  const handleBrandFilter = (brand: string) => {
+    setSelectedBrand(brand);
+    // Reset category when brand changes
+    setSelectedCategory('All');
+  };
+
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(category);
   };
 
   return (
@@ -34,7 +54,7 @@ const Cycle = () => {
             <div>
               <h1 className="text-2xl font-bold text-slate-900 mb-2">Explore Cycles</h1>
               <p className="text-green-600 font-semibold">
-                Discover {cycles.length} amazing bicycles
+                Discover {cyclesData?.data?.length} amazing bicycles
               </p>
             </div>
           </div>
@@ -45,7 +65,12 @@ const Cycle = () => {
               {brands.map(brand => (
                 <button
                   key={brand}
-                  className="px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all bg-white text-slate-700 hover:bg-blue-600 hover:text-white border border-slate-300 hover:border-blue-600"
+                  onClick={() => handleBrandFilter(brand)}
+                  className={`px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all border ${
+                    selectedBrand === brand
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-slate-700 hover:bg-blue-600 hover:text-white border-slate-300 hover:border-blue-600'
+                  }`}
                 >
                   {brand}
                 </button>
@@ -59,7 +84,12 @@ const Cycle = () => {
               {categories.map(category => (
                 <button
                   key={category}
-                  className="px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all bg-white text-slate-700 hover:bg-purple-600 hover:text-white border border-slate-300 hover:border-purple-600"
+                  onClick={() => handleCategoryFilter(category)}
+                  className={`px-4 py-1 rounded-full font-semibold text-sm whitespace-nowrap transition-all border ${
+                    selectedCategory === category
+                      ? 'bg-green-600 text-white border-green-600'
+                      : 'bg-white text-slate-700 hover:bg-green-600 hover:text-white border-slate-300 hover:border-green-600'
+                  }`}
                 >
                   {category}
                 </button>
@@ -112,7 +142,7 @@ const Cycle = () => {
               Retry
             </button>
           </div>
-        ) : cycles.length === 0 ? (
+        ) : cyclesData?.data?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Bike className="w-20 h-20 text-slate-300 mb-4" />
             <h3 className="text-xl font-bold text-slate-700 mb-2">No cycles available</h3>
@@ -120,7 +150,7 @@ const Cycle = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {cycles.map(cycle => (
+            {cyclesData?.data?.map(cycle => (
               <CycleCard
                 key={cycle._id}
                 cycle={cycle}

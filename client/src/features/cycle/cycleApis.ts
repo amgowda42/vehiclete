@@ -54,9 +54,13 @@ export interface CycleDetailResponse {
 
 export const cycleApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllCycles: builder.query<CycleListResponse, void>({
-      query: () => ({
+    getAllCycles: builder.query<CycleListResponse, { brand?: string; category?: string }>({
+      query: ({ brand, category }) => ({
         url: '/cycles',
+        params: {
+          ...(brand && { brand }),
+          ...(category && { category }),
+        },
       }),
       providesTags: ['Cycle'],
     }),
@@ -66,7 +70,24 @@ export const cycleApis = apiSlice.injectEndpoints({
         url: `/cycles/${id}`,
       }),
     }),
+
+    getCycleBrands: builder.query<{ success: boolean; message: string; data: string[] }, void>({
+      query: () => ({
+        url: '/cycles/brands',
+      }),
+    }),
+
+    getCycleCategories: builder.query<{ success: boolean; message: string; data: string[] }, void>({
+      query: () => ({
+        url: '/cycles/categories',
+      }),
+    }),
   }),
 });
 
-export const { useGetAllCyclesQuery, useGetCycleByIdQuery } = cycleApis;
+export const {
+  useGetAllCyclesQuery,
+  useGetCycleByIdQuery,
+  useGetCycleBrandsQuery,
+  useGetCycleCategoriesQuery,
+} = cycleApis;
