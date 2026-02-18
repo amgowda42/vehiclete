@@ -14,9 +14,11 @@ import authRoutes from './routes/authRoutes.js';
 import bikeRoutes from './routes/bikeRoutes.js';
 import carRoutes from './routes/carRoutes.js';
 import cycleRoutes from './routes/cycleRoutes.js';
+import demoRoutes from './routes/demoRoutes.js';
 import emiRoutes from './routes/emiRoutes.js';
 import rootRoutes from './routes/root.js';
 import usersRoutes from './routes/userRoutes.js';
+import vehicleRoutes from './routes/vehicleRoutes.js';
 import vehiclesStatsRoutes from './routes/vehiclesStatsRoutes.js';
 import { error } from './utils/logger.js';
 
@@ -45,7 +47,8 @@ app.use('/cycles', cycleRoutes);
 app.use('/vehiclesStats', vehiclesStatsRoutes);
 app.use('/users', usersRoutes);
 app.use('/emi', emiRoutes);
-
+app.use('/demo', demoRoutes);
+app.use('/vehicle', vehicleRoutes);
 app.all('/*splat', (req, res) => {
   res.status(404);
 
