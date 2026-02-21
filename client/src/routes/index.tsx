@@ -19,6 +19,8 @@ import BikeLayout from '@/features/bike/pages/Layout';
 import CarLayout from '@/features/car/pages/Layout';
 import CycleLayout from '@/features/cycle/pages/Layout';
 import User from '@/features/admin/user/pages/User';
+import EmiDetails from '@/features/emi/pages/EmiDetails';
+import BookDemoForm from '@/features/demo/components/demoBookingForm';
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +143,14 @@ export const router = createBrowserRouter([
                 path: ':id',
                 Component: BikeDetails,
               },
+              {
+                path: 'emi/:id',
+                Component: EmiDetails,
+              },
+              {
+                path: 'test-drive/:id',
+                Component: BookDemoForm,
+              },
             ],
           },
 
@@ -155,6 +165,14 @@ export const router = createBrowserRouter([
               {
                 path: ':id',
                 Component: CarDetails,
+              },
+              {
+                path: 'emi/:id',
+                Component: EmiDetails,
+              },
+              {
+                path: 'test-drive/:id',
+                Component: BookDemoForm,
               },
             ],
           },
@@ -171,6 +189,14 @@ export const router = createBrowserRouter([
               {
                 path: ':id',
                 Component: CycleDetails,
+              },
+              {
+                path: 'emi/:id',
+                Component: EmiDetails,
+              },
+              {
+                path: 'test-drive/:id',
+                Component: BookDemoForm,
               },
             ],
           },
