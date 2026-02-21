@@ -32,7 +32,13 @@ export const vehiclesStatsApis = apiSlice.injectEndpoints({
         url: '/vehiclesStats',
       }),
     }),
+
+    getVehicleById: builder.query({
+      query: (id: string) => ({
+        url: `/vehicle/${id}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetVehiclesStatsQuery } = vehiclesStatsApis;
+export const { useGetVehiclesStatsQuery, useGetVehicleByIdQuery } = vehiclesStatsApis;
