@@ -65,7 +65,7 @@ const EmiDetails = () => {
       }).unwrap();
 
       setIsEditing(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.log('Failed to update EMI details:', err);
     }
   };
@@ -134,7 +134,7 @@ const EmiDetails = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900">EMI Details</h1>
-                <p className="text-sm text-slate-500">Vehicle ID: {emiDetails.vehicleId}</p>
+                <p className="text-sm text-slate-500">Vehicle ID: {emiDetails.data.vehicleId}</p>
               </div>
             </div>
 
@@ -290,7 +290,7 @@ const EmiDetails = () => {
                   <h3 className="text-sm font-medium text-slate-600">Monthly EMI</h3>
                 </div>
                 <p className="text-3xl font-bold text-slate-900">
-                  {formatCurrency(emiDetails.monthlyEmi)}
+                  {formatCurrency(emiDetails.data.monthlyEmi)}
                 </p>
               </div>
 
@@ -300,7 +300,7 @@ const EmiDetails = () => {
                   <h3 className="text-sm font-medium text-slate-600">Vehicle Price</h3>
                 </div>
                 <p className="text-3xl font-bold text-slate-900">
-                  {formatCurrency(emiDetails.price)}
+                  {formatCurrency(emiDetails.data.price)}
                 </p>
               </div>
 
@@ -310,7 +310,7 @@ const EmiDetails = () => {
                   <h3 className="text-sm font-medium text-slate-600">Total Interest</h3>
                 </div>
                 <p className="text-3xl font-bold text-slate-900">
-                  {formatCurrency(emiDetails.totalInterest)}
+                  {formatCurrency(emiDetails.data.totalInterest)}
                 </p>
               </div>
 
@@ -320,7 +320,7 @@ const EmiDetails = () => {
                   <h3 className="text-sm font-medium text-slate-600">Total Payable</h3>
                 </div>
                 <p className="text-3xl font-bold text-slate-900">
-                  {formatCurrency(emiDetails.totalPayable)}
+                  {formatCurrency(emiDetails.data.totalPayable)}
                 </p>
               </div>
             </div>
@@ -332,26 +332,26 @@ const EmiDetails = () => {
                 <div>
                   <p className="text-sm text-slate-600">Down Payment</p>
                   <p className="text-lg font-semibold text-slate-900">
-                    {formatCurrency(emiDetails.downPayment)}
+                    {formatCurrency(emiDetails.data.downPayment)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">Interest Rate</p>
                   <p className="text-lg font-semibold text-slate-900">
-                    {emiDetails.interestRate}% p.a.
+                    {emiDetails.data.interestRate}% p.a.
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">Tenure</p>
                   <p className="text-lg font-semibold text-slate-900">
-                    {emiDetails.tenureMonths} months ({Math.floor(emiDetails.tenureMonths / 12)}{' '}
-                    years)
+                    {emiDetails.data.tenureMonths} months (
+                    {Math.floor(emiDetails.data.tenureMonths / 12)} years)
                   </p>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
                   <p className="text-xs text-slate-500">Last Updated</p>
                   <p className="text-sm font-medium text-slate-700">
-                    {formatDate(emiDetails.updatedAt)}
+                    {formatDate(emiDetails.data.updatedAt)}
                   </p>
                 </div>
               </div>
@@ -367,25 +367,25 @@ const EmiDetails = () => {
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-slate-600">Principal Amount (Price - Down Payment)</span>
                 <span className="font-semibold text-slate-900">
-                  {formatCurrency(emiDetails.price - emiDetails.downPayment)}
+                  {formatCurrency(emiDetails.data.price - emiDetails.data.downPayment)}
                 </span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-slate-600">Total Interest</span>
                 <span className="font-semibold text-orange-600">
-                  {formatCurrency(emiDetails.totalInterest)}
+                  {formatCurrency(emiDetails.data.totalInterest)}
                 </span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-slate-600">Down Payment</span>
                 <span className="font-semibold text-green-600">
-                  {formatCurrency(emiDetails.downPayment)}
+                  {formatCurrency(emiDetails.data.downPayment)}
                 </span>
               </div>
               <div className="flex justify-between items-center py-3 bg-blue-50 rounded-lg px-4">
                 <span className="font-semibold text-slate-900">Total Amount to be Paid</span>
                 <span className="text-xl font-bold text-blue-600">
-                  {formatCurrency(emiDetails.totalPayable)}
+                  {formatCurrency(emiDetails.data.totalPayable)}
                 </span>
               </div>
             </div>

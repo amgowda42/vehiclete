@@ -10,22 +10,34 @@ export interface IEmi {
   tenureMonths: number;
   totalInterest: number;
   totalPayable: number;
+  updatedAt: string; // you are using this in UI
 }
 
 export interface EmiDetaisResponse {
-  massage: string;
+  message: string; // fix typo (was massage)
   data: IEmi;
   success: boolean;
+}
+
+/* ✅ NEW TYPE */
+export interface UpdateEmiPayload {
+  vehicleId: string;
+  price: number;
+  downPayment: number;
+  interestRate: number;
+  tenureMonths: number;
 }
 
 export const emiApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getEmiDetails: builder.query<EmiDetaisResponse, string>({
-      query: vehiclId => ({
-        url: `/emi/${vehiclId}`,
+      query: vehicleId => ({
+        url: `/emi/${vehicleId}`,
       }),
     }),
-    updateEmiDetails: builder.mutation<EmiDetaisResponse, IEmi>({
+
+    /* ✅ FIXED HERE */
+    updateEmiDetails: builder.mutation<EmiDetaisResponse, UpdateEmiPayload>({
       query: emiDetails => ({
         url: '/emi',
         method: 'POST',
