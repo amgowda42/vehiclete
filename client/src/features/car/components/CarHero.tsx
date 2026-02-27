@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import type { ICar } from '../carApis';
 import { Button } from '@/components/ui/button';
-
+import { useNavigate } from 'react-router';
 interface CarHeroProps {
   car: ICar;
 }
@@ -14,6 +14,8 @@ const CarHero = ({ car }: CarHeroProps) => {
       maximumFractionDigits: 0,
     }).format(price);
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="bg-card text-white">
@@ -46,10 +48,17 @@ const CarHero = ({ car }: CarHeroProps) => {
             <div className="text-3xl font-bold text-green-400 mb-4">{formatPrice(car.price)}</div>
 
             <div className="flex gap-3">
-              <Button className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer">
+              <Button
+                className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                onClick={() => navigate(`/user/cars/test-drive/${car._id}`)}
+              >
                 Book Test Ride
               </Button>
-              <Button variant="outline" className="flex-1 cursor-pointer text-black">
+              <Button
+                variant="outline"
+                className="flex-1 cursor-pointer text-black"
+                onClick={() => navigate(`/user/cars/emi/${car._id}`)}
+              >
                 Get EMI Details
               </Button>
             </div>

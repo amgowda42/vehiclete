@@ -1,12 +1,14 @@
 import type { ICycle } from '../cycleApis';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useNavigate } from 'react-router';
 
 interface CycleHeroProps {
   cycle: ICycle;
 }
 
 const CycleHero = ({ cycle }: CycleHeroProps) => {
+  const navigate = useNavigate();
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -47,10 +49,17 @@ const CycleHero = ({ cycle }: CycleHeroProps) => {
             <div className="text-3xl font-bold text-green-400 mb-4">{formatPrice(cycle.price)}</div>
 
             <div className="flex gap-3">
-              <Button className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer">
+              <Button
+                className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                onClick={() => navigate(`/user/cycles/test-drive/${cycle._id}`)}
+              >
                 Book Test Ride
               </Button>
-              <Button variant="outline" className="flex-1 cursor-pointer text-black">
+              <Button
+                variant="outline"
+                className="flex-1 cursor-pointer text-black"
+                onClick={() => navigate(`/user/cycles/emi/${cycle._id}`)}
+              >
                 Get EMI Details
               </Button>
             </div>

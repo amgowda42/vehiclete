@@ -3,12 +3,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BikeIcon, Gauge, Zap, Fuel, IndianRupee } from 'lucide-react';
 import type { IBike } from '../bikeApis';
+import { useNavigate } from 'react-router';
 
 interface BikeHeroProps {
   bike: IBike;
 }
 
 const BikeHero = ({ bike }: BikeHeroProps) => {
+  const navigate = useNavigate();
   return (
     <div className="border-b bg-card">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
@@ -67,10 +69,17 @@ const BikeHero = ({ bike }: BikeHeroProps) => {
             </div>
 
             <div className="flex gap-3">
-              <Button className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer">
+              <Button
+                className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                onClick={() => navigate(`/user/bikes/test-drive/${bike._id}`)}
+              >
                 Book Test Ride
               </Button>
-              <Button variant="outline" className="flex-1 cursor-pointer">
+              <Button
+                variant="outline"
+                className="flex-1 cursor-pointer"
+                onClick={() => navigate(`/user/bikes/emi/${bike._id}`)}
+              >
                 Get EMI Details
               </Button>
             </div>
