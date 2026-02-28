@@ -25,20 +25,23 @@ import { error } from './utils/logger.js';
 const app = express();
 const PORT = process.env.PORT ?? '8001';
 
+// ✅ CORS
 app.use(cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptions));
 app.options('/*splat', cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptions));
 
+// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
+// ✅ Connect DB (don't wait for it to start the server)
 void connectDB();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(requestLogger);
-
+// ✅ Routes
 app.use('/', rootRoutes);
 app.use('/auth', authRoutes);
 app.use('/bikes', bikeRoutes);
@@ -49,15 +52,16 @@ app.use('/users', usersRoutes);
 app.use('/emi', emiRoutes);
 app.use('/demo', demoRoutes);
 app.use('/vehicle', vehicleRoutes);
+
+// ✅ 404 Handler
 app.all('/*splat', (req, res) => {
   res.status(404);
-
   if (req.accepts('html')) {
     res.sendFile(path.join(__dirname, '..', 'public', '404.html'));
   } else if (req.accepts('json')) {
     res.json({
       error: 'Not Found',
-      message: '404 Not Found (this url not found)',
+      message: '404 Not Found',
       path: req.originalUrl,
     });
   } else {
@@ -67,13 +71,17 @@ app.all('/*splat', (req, res) => {
 
 app.use(errorHandler);
 
-mongoose.connection.once('open', () => {
-  console.log('Connected to MongoDB');
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// ✅ Only listen in local dev — Vercel handles this in production
+if (process.env.NODE_ENV !== 'production') {
+  mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   });
-});
+}
 
+// ✅ Error handlers
 process.on('unhandledRejection', (err: unknown) => {
   if (err instanceof Error) {
     error('Unhandled Rejection', { error: err.message, stack: err.stack });
@@ -91,3 +99,6 @@ process.on('uncaughtException', (err: unknown) => {
   }
   process.exit(1);
 });
+
+// ✅ Export for Vercel serverless
+export default app;
