@@ -91,3 +91,5 @@ process.on('uncaughtException', (err: unknown) => {
   }
   process.exit(1);
 });
+
+export default app;
