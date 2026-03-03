@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx tsc",
     "dev": "tsc && node dist/server.js",
     "start": "node dist/server.js",
     "watch": "tsc --watch",
