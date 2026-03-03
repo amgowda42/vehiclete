@@ -67,11 +67,6 @@ app.all('/*splat', (req, res) => {
 
 app.use(errorHandler);
 
-
-// mongoose.connection.once('open', () => {
-//   console.log('Connected to MongoDB');
-// });
-
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
   app.listen(PORT, () => {
@@ -96,5 +91,3 @@ process.on('uncaughtException', (err: unknown) => {
   }
   process.exit(1);
 });
-
-export default app;
