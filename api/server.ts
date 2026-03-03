@@ -2,7 +2,6 @@ import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -20,7 +19,6 @@ import rootRoutes from './routes/root.js';
 import usersRoutes from './routes/userRoutes.js';
 import vehicleRoutes from './routes/vehicleRoutes.js';
 import vehiclesStatsRoutes from './routes/vehiclesStatsRoutes.js';
-import { error } from './utils/logger.js';
 
 const app = express();
 const PORT = process.env.PORT ?? '8001';
@@ -67,27 +65,10 @@ app.all('/*splat', (req, res) => {
 
 app.use(errorHandler);
 
-mongoose.connection.once('open', () => {
-  console.log('Connected to MongoDB');
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-});
+}
 
-process.on('unhandledRejection', (err: unknown) => {
-  if (err instanceof Error) {
-    error('Unhandled Rejection', { error: err.message, stack: err.stack });
-  } else {
-    error('Unhandled Rejection', { error: String(err) });
-  }
-  process.exit(1);
-});
-
-process.on('uncaughtException', (err: unknown) => {
-  if (err instanceof Error) {
-    error('Uncaught Exception', { error: err.message, stack: err.stack });
-  } else {
-    error('Uncaught Exception', { error: String(err) });
-  }
-  process.exit(1);
-});
+export default app;
