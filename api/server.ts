@@ -23,7 +23,7 @@ import vehiclesStatsRoutes from './routes/vehiclesStatsRoutes.js';
 import { error } from './utils/logger.js';
 
 const app = express();
-const PORT = process.env.PORT ?? '8001';
+// const PORT = process.env.PORT ?? '8001';
 
 app.use(cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptions));
 app.options('/*splat', cors(process.env.NODE_ENV === 'development' ? corsOptionsDev : corsOptions));
@@ -67,12 +67,17 @@ app.all('/*splat', (req, res) => {
 
 app.use(errorHandler);
 
+
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
 });
+
+// mongoose.connection.once('open', () => {
+//   console.log('Connected to MongoDB');
+//   app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+//   });
+// });
 
 process.on('unhandledRejection', (err: unknown) => {
   if (err instanceof Error) {
