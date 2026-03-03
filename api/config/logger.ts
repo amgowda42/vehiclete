@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-import path from 'path';
 import winston from 'winston';
 
 const logFormat = winston.format.combine(
@@ -21,28 +19,7 @@ const consoleFormat = winston.format.combine(
 );
 
 export const logger = winston.createLogger({
-  format: logFormat,
+  format: process.env.NODE_ENV === 'production' ? logFormat : consoleFormat,
   level: process.env.LOG_LEVEL ?? 'info',
-  transports: [
-    new winston.transports.File({
-      filename: path.join('logs', 'error.log'),
-      level: 'error',
-      maxFiles: 5,
-      maxsize: 5242880,
-    }),
-    new winston.transports.File({
-      filename: path.join('logs', 'combined.log'),
-      maxFiles: 5,
-      maxsize: 5242880,
-    }),
-  ],
+  transports: [new winston.transports.Console()],
 });
-
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new winston.transports.Console({
-      format: consoleFormat,
-    })
-  );
-}
-

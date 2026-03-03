@@ -1,31 +1,67 @@
-import winston from 'winston';
+import { type Request } from 'express';
 
-const logFormat = winston.format.combine(
-  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-  winston.format.errors({ stack: true }),
-  winston.format.json()
-);
+import { logger } from '../config/logger.js';
 
-const consoleFormat = winston.format.combine(
-  winston.format.colorize(),
-  winston.format.timestamp({ format: 'HH:mm:ss' }),
-  winston.format.printf(({ level, message, timestamp, ...meta }) => {
-    let msg = `${timestamp} [${level}]: ${message}`;
-    if (Object.keys(meta).length > 0) {
-      msg += ` ${JSON.stringify(meta)}`;
-    }
-    return msg;
-  })
-);
+interface ErrorWithStatus extends Error {
+  statusCode?: number;
+}
 
-export const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL ?? 'info',
-  format: logFormat,
-  transports: [
-    new winston.transports.Console({
-      format: process.env.NODE_ENV === 'production'
-        ? logFormat
-        : consoleFormat,
-    }),
-  ],
-});
+type LogMeta = Record<string, unknown>;
+
+export const info = (message: string, meta: LogMeta = {}): void => {
+  logger.info(message, meta);
+};
+
+export const error = (message: string, meta: LogMeta = {}): void => {
+  logger.error(message, meta);
+};
+
+export const warn = (message: string, meta: LogMeta = {}): void => {
+  logger.warn(message, meta);
+};
+
+export const debug = (message: string, meta: LogMeta = {}): void => {
+  logger.debug(message, meta);
+};
+
+export const logAPI = (
+  method: string,
+  url: string,
+  statusCode: number,
+  responseTime: number,
+  meta: LogMeta = {}
+): void => {
+  logger.info('API Request', {
+    method,
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    responseTime: `${responseTime}ms`,
+    statusCode,
+    url,
+    ...meta,
+  });
+};
+
+export const logAuth = (event: string, userId: string, meta: LogMeta = {}): void => {
+  logger.info(`Auth: ${event}`, { userId, ...meta });
+};
+
+export const logDB = (operation: string, collection: string, meta: LogMeta = {}): void => {
+  logger.debug(`DB ${operation}`, { collection, ...meta });
+};
+
+export const logError = (error: ErrorWithStatus, req: null | Request = null): void => {
+  const errorLog: LogMeta = {
+    message: error.message,
+    stack: error.stack,
+    statusCode: error.statusCode ?? 500,
+  };
+
+  if (req) {
+    errorLog.method = req.method;
+    errorLog.url = req.originalUrl;
+    errorLog.ip = req.ip;
+    errorLog.body = req.body;
+  }
+
+  logger.error('Application Error', errorLog);
+};
