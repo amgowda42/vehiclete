@@ -11,14 +11,12 @@ cloudinary.config({
   cloud_name: CLOUDINARY_CLOUD_NAME ?? '',
 });
 
-// Memory storage for multer
 const storage = multer.memoryStorage();
 
-// Multer configuration
 export const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
+    fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (file.mimetype.startsWith('image/')) {
@@ -28,8 +26,6 @@ export const upload = multer({
     }
   },
 });
-
-// Upload buffer to Cloudinary
 export const uploadToCloudinary = (
   buffer: Buffer,
   folderName: string = 'bikes'
