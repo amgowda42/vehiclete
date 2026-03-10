@@ -8,6 +8,6 @@ const router = Router();
 
 router.get('/', authGuard, getAllUsers);
 router.get('/count', authGuard, getUsersCount);
-router.patch('/update/:id', UpdateUser);
+router.patch('/update/:id', authGuard, UpdateUser);
 
 export default router;

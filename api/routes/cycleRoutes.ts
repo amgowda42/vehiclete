@@ -6,14 +6,15 @@ import {
   getCycleById,
   getCycleCategories,
 } from '../controller/cycle.controller.js';
+import { authGuard } from '../middleware/authGuard.js';
 import { validate } from '../middleware/validate.js';
 import { cycleIdSchema, cyclesQuerySchema } from '../validation/cycle.validation.js';
 
 const router = Router();
 
-router.get('/', validate(cyclesQuerySchema), cycles);
-router.get('/brands', validate(cyclesQuerySchema), getCycleBrands);
-router.get('/categories', validate(cyclesQuerySchema), getCycleCategories);
-router.get('/:id', validate(cycleIdSchema), getCycleById);
+router.get('/', authGuard, validate(cyclesQuerySchema), cycles);
+router.get('/brands', authGuard, validate(cyclesQuerySchema), getCycleBrands);
+router.get('/categories', authGuard, validate(cyclesQuerySchema), getCycleCategories);
+router.get('/:id', authGuard, validate(cycleIdSchema), getCycleById);
 
 export default router;
