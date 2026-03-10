@@ -1,5 +1,7 @@
 import type { Request, Response } from 'express';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 const { JsonWebTokenError, TokenExpiredError } = jwt;
@@ -73,14 +75,14 @@ export const login = async (req: Request<object, object, SignUpRequestBody>, res
   res.cookie('token', accessToken, {
     httpOnly: true,
     maxAge: 15 * 60 * 1000, // 15 minutes
-    sameSite: 'none',
-    secure: true,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction,
   });
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: 'none',
+    sameSite: isProduction ? 'none' : 'lax',
     secure: true,
   });
 
@@ -150,7 +152,7 @@ export const refreshToken = async (req: Request, res: Response) => {
   res.cookie('token', newAccessToken, {
     httpOnly: true,
     maxAge: 15 * 60 * 1000, // 15 minutes
-    sameSite: 'none',
+    sameSite: isProduction ? 'none' : 'lax',
     secure: true,
   });
 
@@ -160,13 +162,13 @@ export const refreshToken = async (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
   res.clearCookie('token', {
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: isProduction ? 'none' : 'lax',
     secure: true,
   });
 
   res.clearCookie('refreshToken', {
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: isProduction ? 'none' : 'lax',
     secure: true,
   });
 
