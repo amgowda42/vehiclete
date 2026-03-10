@@ -83,7 +83,7 @@ export const login = async (req: Request<object, object, SignUpRequestBody>, res
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     sameSite: isProduction ? 'none' : 'lax',
-    secure: true,
+    secure: isProduction,
   });
 
   ApiResponse.success(
@@ -153,7 +153,7 @@ export const refreshToken = async (req: Request, res: Response) => {
     httpOnly: true,
     maxAge: 15 * 60 * 1000, // 15 minutes
     sameSite: isProduction ? 'none' : 'lax',
-    secure: true,
+    secure: isProduction,
   });
 
   ApiResponse.success(res, null, 'Access token refreshed successfully', 200);
@@ -163,13 +163,13 @@ export const logout = (req: Request, res: Response) => {
   res.clearCookie('token', {
     httpOnly: true,
     sameSite: isProduction ? 'none' : 'lax',
-    secure: true,
+    secure: isProduction,
   });
 
   res.clearCookie('refreshToken', {
     httpOnly: true,
     sameSite: isProduction ? 'none' : 'lax',
-    secure: true,
+    secure: isProduction,
   });
 
   ApiResponse.success(res, null, 'Logged out successfully', 200);
