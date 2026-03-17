@@ -21,6 +21,10 @@ import CycleLayout from '@/features/cycle/pages/Layout';
 import User from '@/features/admin/user/pages/User';
 import EmiDetails from '@/features/emi/pages/EmiDetails';
 import BookDemoForm from '@/features/demo/components/demoBookingForm';
+import Compare from '@/features/compare/pages/Compare';
+import CompareBike from '@/features/compare/pages/CompareBike';
+import CompareCar from '@/features/compare/pages/CompareCar';
+import CompareCycle from '@/features/compare/pages/CompareCycle';
 
 export const router = createBrowserRouter([
   {
@@ -197,6 +201,29 @@ export const router = createBrowserRouter([
               {
                 path: 'test-drive/:id',
                 Component: BookDemoForm,
+              },
+            ],
+          },
+          {
+            path: 'compare',
+            Component: Compare,
+            children: [
+              {
+                path: '',
+                Component: () => <Navigate to="bike" />,
+              },
+
+              {
+                path: 'bike',
+                Component: CompareBike,
+              },
+              {
+                path: 'car',
+                Component: CompareCar,
+              },
+              {
+                path: 'cycle',
+                Component: CompareCycle,
               },
             ],
           },
