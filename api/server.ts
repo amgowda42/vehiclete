@@ -12,6 +12,7 @@ import { requestLogger } from './middleware/logger.js';
 import authRoutes from './routes/authRoutes.js';
 import bikeRoutes from './routes/bikeRoutes.js';
 import carRoutes from './routes/carRoutes.js';
+import compareRoutes from './routes/compareRoutes.js';
 import cycleRoutes from './routes/cycleRoutes.js';
 import demoRoutes from './routes/demoRoutes.js';
 import emiRoutes from './routes/emiRoutes.js';
@@ -57,6 +58,7 @@ app.use('/users', usersRoutes);
 app.use('/emi', emiRoutes);
 app.use('/demo', demoRoutes);
 app.use('/vehicle', vehicleRoutes);
+app.use('/compare', compareRoutes);
 app.all('/*splat', (req, res) => {
   res.status(404);
 

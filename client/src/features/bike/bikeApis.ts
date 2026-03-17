@@ -50,7 +50,7 @@ export interface BikeDetailResponse {
 
 export const bikeApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllBikes: builder.query<BikeListResponse, string, void>({
+    getAllBikes: builder.query<BikeListResponse, string>({
       query: brand => ({
         url: '/bikes',
         params: brand ? { brand } : {},
