@@ -2,7 +2,6 @@ import apiSlice from '@/app/apiSlice';
 
 export interface ICar {
   _id: string;
-
   abs: boolean;
   ac: string;
   acceleration: string;
@@ -123,7 +122,7 @@ export interface CarDetailResponse {
 
 export const carApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllCars: builder.query<CarListResponse, string, void>({
+    getAllCars: builder.query<CarListResponse, string>({
       query: brand => ({
         url: '/cars',
         params: brand ? { brand } : {},
