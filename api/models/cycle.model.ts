@@ -62,7 +62,6 @@ const cycleSchema = new Schema<ICycle>(
 );
 
 cycleSchema.index({ brand: 1, model: 1 });
-cycleSchema.index({ price: 1 });
 cycleSchema.index({ year: -1 });
 cycleSchema.index({ category: 1 });
 cycleSchema.index({ isElectric: 1 });

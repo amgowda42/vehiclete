@@ -184,7 +184,6 @@ const carSchema = new Schema<ICar>(
 );
 
 carSchema.index({ brand: 1, model: 1 });
-carSchema.index({ price: 1 });
 carSchema.index({ year: -1 });
 carSchema.index({ bodyType: 1 });
 carSchema.index({ fuelType: 1 });
