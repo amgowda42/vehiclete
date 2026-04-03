@@ -80,7 +80,7 @@ const Footer = () => {
           </div>
 
           <div className="text-center text-slate-400 mt-6">
-            <p>&copy; 2025 Vehiclete. All rights reserved.</p>
+            <p>&copy; 2026 Vehiclete. All rights reserved.</p>
           </div>
         </div>
       </div>
