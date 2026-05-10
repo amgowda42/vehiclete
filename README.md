@@ -70,21 +70,3 @@ git commit -m "feat: added new awesome feature"
 git push origin feature/your-awesome-feature
 
 ```
-
-
-6. **Open a Pull Request (PR)** from your fork to the main `vehiclete` repository. We will review it as soon as possible!
-
-```
-
-### Next Steps to Fix the Green Checkmark:
-1. Replace the contents of your current `README.md` with the text above.
-2. Save the file.
-3. Run these commands in your terminal:
-   ```bash
-   git add README.md
-   git commit -m "docs: update README with local setup and contribution guide"
-   git push
-
-```
-
-Once you push this, your GitHub repository's main page will show this new commit as the latest action, and the old Vercel green checkmark will be gone!
