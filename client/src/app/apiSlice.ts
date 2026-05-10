@@ -5,10 +5,6 @@ import { clearCredentials } from '@/features/auth/authSlice';
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
   credentials: 'include',
-  // prepareHeaders: headers => {
-  //   // Add any custom headers here if needed
-  //   return headers;
-  // },
 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
