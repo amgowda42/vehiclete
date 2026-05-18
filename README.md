@@ -1,6 +1,6 @@
 # Vehiclete 🚗
 
-A unified vehicle platform for browsing, comparing, and managing vehicles.
+A unified opensource vehicle platform for browsing, comparing, and managing vehicles.
 
 ---
 
