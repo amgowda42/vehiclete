@@ -1,0 +1,42 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: vehiclete-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - vehiclete-net
+
+  api:
+    image: amgowda52/vehiclete-api:1
+    container_name: vehiclete-api
+    restart: unless-stopped
+    ports:
+      - '8001:8001'
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    networks:
+      - vehiclete-net
+
+  client:
+    image: amgowda52/vehiclete-client:1
+    container_name: vehiclete-client
+    restart: unless-stopped
+    ports:
+      - '8000:80'
+    depends_on:
+      - api
+    networks:
+      - vehiclete-net
+
+volumes:
+  mongo-data:
+
+networks:
+  vehiclete-net:
+    driver: bridge

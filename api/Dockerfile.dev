@@ -1,0 +1,14 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY tsconfig.json ./
+
+RUN npm install
+
+RUN npm install -g tsx
+
+EXPOSE 8001
+
+CMD ["tsx", "watch", "server.ts"]

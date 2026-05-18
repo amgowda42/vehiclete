@@ -34,11 +34,9 @@ app.use(cookieParser());
 const start = async () => {
   await connectDB();
 
-  if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  }
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 };
 
 void start();
@@ -76,11 +74,5 @@ app.all('/*splat', (req, res) => {
 });
 
 app.use(errorHandler);
-
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
 
 export default app;
